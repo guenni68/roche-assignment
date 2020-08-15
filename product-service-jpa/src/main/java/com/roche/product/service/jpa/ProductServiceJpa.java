@@ -42,7 +42,18 @@ public class ProductServiceJpa implements ProductService {
 
     @Override
     public Product update(Product product) {
-        return null;
+
+        ProductJpa productJpa = productRepo.findOneByIdAndIsDeletedFalse(product.getId());
+
+        if (productJpa == null) {
+            throw new RuntimeException("Product not found");
+        }
+
+        ProductJpa productJpa1 = productJpa
+                .setName(product.getName())
+                .setPrice(product.getPrice());
+
+        return productRepo.save(productJpa1);
     }
 
     @Override

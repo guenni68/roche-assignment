@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -94,5 +95,51 @@ public class ProductServiceTest {
         assertFalse(products2.contains(product0));
 
     }
+
+    @Test
+    @Transactional
+    public void testSimpleUpdate() {
+
+        List<? extends Product> products0 = productService.list();
+        assertTrue(products0.isEmpty());
+
+        Product product0 = productService.create("My Product", 12.23);
+
+        List<? extends Product> products1 = productService.list();
+        assertEquals(products1.size(), 1);
+        assertTrue((products1.contains(product0)));
+
+        Product product1 = productService.update(getProduct(product0, "A new name", 0.99));
+
+        List<? extends Product> products2 = productService.list();
+        assertEquals(products2.size(), 1);
+        assertTrue((products2.contains(product1)));
+
+    }
+
+    private Product getProduct(Product product0, final String name, final double price) {
+        return new Product() {
+            @Override
+            public Long getId() {
+                return product0.getId();
+            }
+
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public Double getPrice() {
+                return price;
+            }
+
+            @Override
+            public Date getCreatedAt() {
+                return product0.getCreatedAt();
+            }
+        };
+    }
+
 
 }
