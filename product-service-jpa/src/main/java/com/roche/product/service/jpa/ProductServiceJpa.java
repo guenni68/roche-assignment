@@ -4,6 +4,7 @@ import com.roche.product.service.api.ProductService;
 import com.roche.product.service.api.model.Product;
 import com.roche.product.service.jpa.entity.ProductJpa;
 import com.roche.product.service.jpa.repo.ProductRepo;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -21,13 +22,15 @@ public class ProductServiceJpa implements ProductService {
     public Product create(String name, Double price, Date created) {
 
         ProductJpa productJpa = new ProductJpa(name, price, created);
+        productRepo.save(productJpa);
 
-        return null;
+        return productJpa;
     }
 
     @Override
+    @Transactional
     public Product get(Long id) {
-        return null;
+        return productRepo.getOne(id);
     }
 
     @Override
@@ -46,7 +49,7 @@ public class ProductServiceJpa implements ProductService {
     }
 
     @Override
-    public List<Product> list() {
-        return null;
+    public List<? extends Product> list() {
+        return productRepo.findAll();
     }
 }
