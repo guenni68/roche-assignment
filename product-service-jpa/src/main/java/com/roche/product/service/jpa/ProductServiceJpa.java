@@ -58,6 +58,6 @@ public class ProductServiceJpa implements ProductService {
 
     @Override
     public List<? extends Product> list() {
-        return productRepo.findAll();
+        return productRepo.findAllByIsDeletedFalse();
     }
 }
