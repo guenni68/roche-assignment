@@ -30,7 +30,14 @@ public class ProductServiceJpa implements ProductService {
     @Override
     @Transactional
     public Product get(Long id) {
-        return productRepo.getOne(id);
+
+        Product product = productRepo.findOneByIdAndIsDeletedFalse(id);
+
+        if (product == null) {
+            throw new RuntimeException("Product not found");
+        }
+
+        return product;
     }
 
     @Override
@@ -39,13 +46,14 @@ public class ProductServiceJpa implements ProductService {
     }
 
     @Override
-    public Product delete(Product product) {
-        return null;
+    public void delete(Product product) {
+        delete(product.getId());
     }
 
     @Override
-    public Product delete(Long id) {
-        return null;
+    public void delete(Long id) {
+        ProductJpa productJpa = productRepo.getOne(id);
+        productRepo.save(productJpa.setDeleted(true));
     }
 
     @Override

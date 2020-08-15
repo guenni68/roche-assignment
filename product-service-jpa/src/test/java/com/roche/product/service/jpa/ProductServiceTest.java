@@ -38,6 +38,7 @@ public class ProductServiceTest {
     }
 
     @Test
+    @Transactional
     public void testList() {
 
         List<? extends Product> products0 = productService.list();
@@ -49,6 +50,28 @@ public class ProductServiceTest {
         assertEquals(products1.size(), 1);
         assertTrue(products1.contains(product0));
 
+    }
+
+    @Test
+    @Transactional
+    public void testSimpleDelete() {
+
+        List<? extends Product> products0 = productService.list();
+        assertTrue(products0.isEmpty());
+
+        Product product0 = productService.create("My Product", 12.23);
+
+        List<? extends Product> products1 = productService.list();
+        assertEquals(products1.size(), 1);
+
+        productService.delete(product0);
+
+        try {
+            productService.get(product0.getId());
+            fail("deleted products cannot be fetched");
+        } catch (Exception e) {
+
+        }
     }
 
 }

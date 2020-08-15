@@ -68,7 +68,7 @@ public class ProductJpa implements Product {
         return isDeleted;
     }
 
-    public ProductJpa setDeleted(Boolean deleted) {
+    public ProductJpa setDeleted(Boolean isDeleted) {
         return new ProductJpa(this.id, this.name, this.price, this.createdAt, isDeleted);
     }
 
