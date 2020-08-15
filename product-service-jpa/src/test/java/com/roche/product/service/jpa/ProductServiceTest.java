@@ -24,7 +24,7 @@ public class ProductServiceTest {
 
     @Test
     @Transactional
-    public void productPersistenceTest() {
+    public void testCreateProductSimple() {
 
         double price = 12.23;
         String product0Name = "My Product";
@@ -36,6 +36,19 @@ public class ProductServiceTest {
         assertNotNull(product0a);
 
         assertEquals(product0, product0a);
+    }
+
+    @Test
+    @Transactional
+    public void testCreateInvalid() {
+
+        try {
+            productService.create(null, null);
+            fail("A product may not be created without a name and a price");
+        } catch (Exception e) {
+
+        }
+
     }
 
     @Test
@@ -109,7 +122,7 @@ public class ProductServiceTest {
         assertEquals(products1.size(), 1);
         assertTrue((products1.contains(product0)));
 
-        Product product1 = productService.update(getProduct(product0, "A new name", 0.99));
+        Product product1 = productService.update(modifyProduct(product0, "A new name", 0.99));
 
         List<? extends Product> products2 = productService.list();
         assertEquals(products2.size(), 1);
@@ -117,7 +130,30 @@ public class ProductServiceTest {
 
     }
 
-    private Product getProduct(Product product0, final String name, final double price) {
+    @Test
+    @Transactional
+    public void testUpdateDeleted() {
+
+        List<? extends Product> products0 = productService.list();
+        assertTrue(products0.isEmpty());
+
+        Product product0 = productService.create("My Product", 12.23);
+
+        productService.delete(product0);
+
+        List<? extends Product> products1 = productService.list();
+        assertTrue(products1.isEmpty());
+
+        try {
+            productService.update(modifyProduct(product0, "Another Name", 0.99));
+            fail("A deleted product cannot be updated");
+        } catch (RuntimeException e) {
+
+        }
+
+    }
+
+    private Product modifyProduct(Product product0, final String name, final double price) {
         return new Product() {
             @Override
             public Long getId() {
