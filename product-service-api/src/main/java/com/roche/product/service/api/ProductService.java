@@ -21,6 +21,6 @@ public interface ProductService {
 
     Product delete(Long id);
 
-    List<Product> list();
+    List<? extends Product> list();
 
 }
