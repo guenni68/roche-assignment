@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  maven:
+    image: library/maven:latest
+    container_name: maven
+    hostname: maven
+    volumes:
+      - type: bind
+        source: "."
+        target: /app
+    working_dir: /app
+    ports:
+      - 8080:8080
+    stdin_open: true
+    tty: true
+    command: "/bin/bash"

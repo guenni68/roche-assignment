@@ -2,7 +2,6 @@ package com.roche.product.service.jpa;
 
 import com.roche.product.service.api.ProductService;
 import com.roche.product.service.api.model.Product;
-import com.roche.product.service.jpa.conf.ProductServiceJpaConf;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ProductServiceJpaConf.class)
+@ContextConfiguration(classes = ProductServiceJpaConfTest.class)
 public class ProductServiceTest {
 
     @Autowired
