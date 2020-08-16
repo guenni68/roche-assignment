@@ -5,6 +5,7 @@ import com.roche.product.service.api.ProductService;
 import com.roche.product.service.api.model.Product;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,41 @@ public class ProductServiceController {
 
         return mapProductToDto(product);
     }
-    
+
+    @PutMapping("/")
+    public ProductDto update(@RequestBody ProductDto productDto) {
+
+        Product product = productService.update(mapProductDtoToProduct(productDto));
+
+        return mapProductToDto(product);
+    }
+
+    private Product mapProductDtoToProduct(final ProductDto productDto) {
+
+        return new Product() {
+            @Override
+            public Long getId() {
+                return productDto.getId();
+            }
+
+            @Override
+            public String getName() {
+                return productDto.getName();
+            }
+
+            @Override
+            public Double getPrice() {
+                return productDto.getPrice();
+            }
+
+            @Override
+            public Date getCreatedAt() {
+                return productDto.getCreatedAt();
+            }
+        };
+    }
+
+
     private ProductDto mapProductToDto(Product product) {
 
         return new ProductDto(
