@@ -20,4 +20,20 @@ public class ProductDto implements Serializable {
         this.price = price;
         this.createdAt = createdAt;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 }

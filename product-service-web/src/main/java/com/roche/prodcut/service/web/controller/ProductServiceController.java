@@ -3,9 +3,7 @@ package com.roche.prodcut.service.web.controller;
 import com.roche.prodcut.service.web.dto.ProductDto;
 import com.roche.product.service.api.ProductService;
 import com.roche.product.service.api.model.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +27,21 @@ public class ProductServiceController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}")
+    public ProductDto getById(@PathVariable("id") Long id) {
+
+        Product product = productService.get(id);
+        return mapProductToDto(product);
+    }
+
+    @PostMapping("/")
+    public ProductDto create(@RequestBody ProductDto productDto) {
+
+        Product product = productService.create(productDto.getName(), productDto.getPrice());
+
+        return mapProductToDto(product);
+    }
+    
     private ProductDto mapProductToDto(Product product) {
 
         return new ProductDto(
