@@ -51,6 +51,12 @@ public class ProductServiceController {
         return mapProductToDto(product);
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+
+        productService.delete(id);
+    }
+
     private Product mapProductDtoToProduct(final ProductDto productDto) {
 
         return new Product() {
